@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1035785030302",
+    "firebase_url": "https://qa-zoom.firebaseio.com",
+    "project_id": "qa-zoom",
+    "storage_bucket": "qa-zoom.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1035785030302:android:61d3cb859891fa09c3498f",
+        "android_client_info": {
+          "package_name": "com.qa_zoom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1035785030302-cofdscmane88n0un4curf26164t6iein.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA__S3WnPGCXAhQX_XomQOuVRp1GizYpG0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1035785030302-cofdscmane88n0un4curf26164t6iein.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

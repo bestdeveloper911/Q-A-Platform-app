@@ -12,6 +12,7 @@ import {connect} from 'react-redux';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {onLogin} from '../../../redux/actions/Auth'
 import Toast from 'react-native-simple-toast';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const LoginInfo = (props) => {
   const [name, setName] = useState('');
@@ -50,7 +51,8 @@ const LoginInfo = (props) => {
   }, [props.auth])
 
   return (
-    <View style={styles.container}>
+    <KeyboardAwareScrollView style={styles.container}>
+      <View style={styles.viewcontainer}>
       <View style={{ marginTop: 80, marginBottom: 25}}>
         <Text style={styles.topTextStyle}>
           Log in with email
@@ -106,7 +108,8 @@ const LoginInfo = (props) => {
       <Text style={{textAlign: 'center', color: '#FFF', marginTop: 20}}>
           By clicking on "Create an account" you agree to our Terms of Use and Privacy Policy.
       </Text>
-    </View>
+      </View>
+    </KeyboardAwareScrollView>
   );
 }
 
@@ -130,6 +133,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F6323E',
+  },
+  viewcontainer: {
     alignItems: 'center',
     paddingHorizontal: 40
   },

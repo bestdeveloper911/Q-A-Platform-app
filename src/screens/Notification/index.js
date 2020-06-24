@@ -8,11 +8,21 @@ import {
   CheckBox
 } from 'react-native';
 import CustomBlueButton from '../../components/CustomBlueButton';
+import database from '@react-native-firebase/database';
 import {connect} from 'react-redux';
 
 const Notification = (props) => {
   const [isSelected, setSelection] = useState(false);
   
+  // useEffect(() => {
+  //   database()
+  //   .ref(`/users/${props.user.uid}`)
+  //   .once('value')
+  //   .then(snapshot => {
+  //     global.session_amount = snapshot.val().session_amount;
+  //   })
+  // }, [])
+
   const onPress = () => {
     if (props.user.userrole == 1){
       props.navigation.navigate('QUESTIONS');
@@ -24,7 +34,7 @@ const Notification = (props) => {
 
   return (
     <View style={styles.container}>
-      <Image source={require('../../assets/images/bell.png')} style={{marginTop: '30%', marginBottom: 40}}/>
+      <Image source={require('../../assets/images/bell.png')} style={{ marginBottom: 40}}/>
       <Text style={styles.textStyle}>
         You've got a message!
       </Text>
@@ -32,7 +42,7 @@ const Notification = (props) => {
           We'll let you know when teachers answer your questions.
       </Text>
       <CustomBlueButton title='Turn on notifications' onPress={onPress}/>
-      <TouchableOpacity onPress={() => props.navigation.navigate('ANSWERS')} style={{marginTop: 70}}>
+      <TouchableOpacity onPress={() => onPress()} style={{marginTop: 50}}>
         <Text style={styles.bottomTextStyle}>Later</Text>
       </TouchableOpacity>
     </View>
@@ -49,10 +59,11 @@ export default connect(mapStateToProps)(Notification);
 
 const styles = StyleSheet.create({
   container: {
-  flex: 1,
+    flex: 1,
     backgroundColor: '#FFF',
     alignItems: 'center',
-    paddingHorizontal: 25
+    paddingHorizontal: 25,
+    justifyContent: 'center'
   },
   textStyle: {
     fontSize: 24,

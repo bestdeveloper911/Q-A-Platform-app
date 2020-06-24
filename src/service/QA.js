@@ -38,9 +38,8 @@ export const getLearnerQuestionList = async(uid) => {
 }
 
 
-export const updateSession = async(qalist, questionuid, answeruid, useruid) => {
+export const updateSession = async(qalist, questionuid, answeruid, useruid, questionuseruid, userrole) => {
   qalist.map(item => {
-    console.log('item=============',item)
     if (item.type == 'answer'){
       database()
       .ref(`/answer/${item.key}`)
@@ -53,10 +52,12 @@ export const updateSession = async(qalist, questionuid, answeruid, useruid) => {
       .ref(`/question/${item.key}`)
       .update({
         isclose: true,
+        questionuid: userrole == 1? questionuseruid: answeruid[0]
       })
       .then(() => console.log('Data updated.'));
     }
   })
+  
   database()
     .ref(`/users/${useruid}`)
     .update({

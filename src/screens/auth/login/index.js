@@ -5,9 +5,11 @@ import {
   View,
   Image,
   Alert,
+  ScrollView,
   TouchableOpacity
 } from 'react-native';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+
 
 const Login = (props) => {
  
@@ -18,9 +20,9 @@ const Login = (props) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => props.navigation.goBack()} style={styles.backbuttonStyle}>
-        <Fontisto name='angle-left' color='#FFF' size={32}/>
+        <Fontisto name='angle-left' color='#FFF' size={28}/>
       </TouchableOpacity>
-      <View style={{ marginTop: 80, marginBottom: 25}}>
+      <View style={{ marginTop: 60, marginBottom: 25}}>
         <Text style={styles.topTextStyle}>
           Log in with...
         </Text>
@@ -55,7 +57,7 @@ const Login = (props) => {
           </Text>
         </View>
       </TouchableOpacity>  
-      <TouchableOpacity style={styles.cardViewStyle}>
+      <TouchableOpacity style={[styles.cardViewStyle, {marginBottom: 10}]}>
         <View style={{justifyContent:'center', marginRight: 25}}>
         <Image style={{ width: 30, height: 30}} source={require('../../../assets/images/linkedin.png')}/>
         </View>
@@ -65,7 +67,7 @@ const Login = (props) => {
           </Text>
         </View>
       </TouchableOpacity>
-      <Text style={{marginBottom: 20, color: '#FFF', fontSize: 24, fontWeight: '700', letterSpacing: 1}}>
+      <Text style={{marginBottom: 10, color: '#FFF', fontSize: 24, fontWeight: '700', letterSpacing: 1}}>
         or  
       </Text> 
       <TouchableOpacity onPress={() => movePage('LoginInfo')} style={styles.cardViewStyle}>
@@ -107,8 +109,8 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#FFF',
     borderRadius: 20,
-    height: 60,
-    marginBottom: 20,
+    height: 50,
+    marginBottom: 15,
     flexDirection: 'row',
     padding:8
   },

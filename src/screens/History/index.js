@@ -16,31 +16,46 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {connect} from 'react-redux';
 
 const History = (props) => {
-  const [content, setContent] = useState('');
+  const [searchtext, setSearchtext] = useState('');
   const [qAList, setQAList] = useState([]);
- 
+  const [constant, setConstant] = useState([]);
   const scrollViewRef = useRef();
  
   useEffect(() => {
     async function fetchQAList(){
-      database()
-        .ref('/question')
-        .on('value', snapshot => {
-          let qalist = [];
-          snapshot.forEach(item => {
-            if (props.user.userrole == 1){
+      if (props.user.userrole == 1){
+        database()
+          .ref('/question')
+          .orderByChild('questionuid')
+          .equalTo(props.user.uid)
+          .on('value', snapshot => {
+            let qalist = [];
+            snapshot.forEach(item => {
               if (item.val().newquestion && item.val().isclose){
                 qalist.push(item.val());
               }
-            } else {
-              if (item.val().newquestion && item.val().isclose && item.val().uid == props.user.uid){
+            })
+            qalist.sort(function(a,b){return a.timestamp-b.timestamp})
+            setQAList(qalist);
+            setConstant(qalist);
+        })
+      } else {
+        database()
+          .ref('/question')
+          .orderByChild('uid')
+          .equalTo(props.user.uid)
+          .on('value', snapshot => {
+            let qalist = [];
+            snapshot.forEach(item => {
+              if (item.val().newquestion && item.val().isclose){
                 qalist.push(item.val());
               }
-            }
-          })
-          qalist.sort(function(a,b){return a.timestamp-b.timestamp})
-          setQAList(qalist);
-      })
+            })
+            qalist.sort(function(a,b){return a.timestamp-b.timestamp})
+            setQAList(qalist);
+            setConstant(qalist);
+        })
+      }
     }
     fetchQAList()
   },[])
@@ -62,7 +77,7 @@ const History = (props) => {
                   </Text> 
                 </View>
                 <View style={{marginLeft:25, marginTop: 5}}>
-                  <Text style={{fontSize: 10, fontFamily: 'Roboto-Medium', color:'#B3BDD8'}}>
+                  <Text style={{fontSize: 10, fontFamily: 'Roboto', color:'#B3BDD8'}}>
                     {item.time}
                   </Text>
                 </View>
@@ -73,13 +88,31 @@ const History = (props) => {
     })
   }
 
-
+  const searchFilterFunction = (text) => {
+    const newData = constant.filter(function(item) {
+      const itemData = item.content ? item.content.toUpperCase() : ''.toUpperCase();
+      const textData = text.toUpperCase();
+      return itemData.indexOf(textData) > -1;
+    });
+    console.log(newData)
+    setQAList(newData);
+    setSearchtext(text);
+  }
 
   return (
     <View style={styles.teacherContainer}>
       <Text style={styles.QAtitleTextStyle}>
           History
       </Text>
+      {props.user.userrole == 0 &&
+      <TextInput
+        style={styles.textInputStyle}
+        onChangeText={text => searchFilterFunction(text)}
+        value={searchtext}
+        underlineColorAndroid="transparent"
+        placeholder="Search Here"
+      />
+      }
       <KeyboardAwareScrollView 
         ref={scrollViewRef} style={{flex:1, marginTop: 35}}
         onContentSizeChange={(contentWidth, contentHeight) => {
@@ -116,6 +149,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFF',
     marginHorizontal: 10
+  },
+  textInputStyle: {
+    height: 45,
+    borderWidth: 1,
+    paddingLeft: 10,
+    marginTop: 10,
+    borderRadius: 5,
+    borderColor: '#C1BABA',
+    backgroundColor: '#FFFFFF',
   },
   teacherBlankTextStyle: {
     color: '#9D9D9C', 

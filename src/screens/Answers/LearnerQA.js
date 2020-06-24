@@ -52,12 +52,12 @@ const LearnerQA = (props) => {
         .orderByChild('uid')
         .equalTo(props.user.uid)
         .on('value', async(snapshot) => {
-          let qalist = [];
+          let qlist = [];
           let questionUID = []
           let answerUID = []
           snapshot.forEach(item => {
             if (!item.val().isclose){
-              qalist.push(item.val());
+              qlist.push(item.val());
               questionUID.push(item.val().uid);
             }
           })
@@ -66,12 +66,14 @@ const LearnerQA = (props) => {
             .orderByChild('touid')
             .equalTo(props.user.uid)
             .on('value', subsnapshot => {
+              let alist = [];
               subsnapshot.forEach(subitem => {
                 if (!subitem.val().isclose){
-                  qalist.push(subitem.val());
+                  alist.push(subitem.val());
                   answerUID.push(subitem.val().uid);
                 }
               })
+              let qalist = [...qlist, ...alist];
               setQAList(qalist.sort(function(a,b){return a.timestamp - b.timestamp}));
               setAnswerLength(answerUID.length);
               setQuestionLength(questionUID.length); 
@@ -120,7 +122,7 @@ const LearnerQA = (props) => {
   }
 
   const closeSession = async() => {
-    await updateSession(qAList, questionuid, answeruid, props.user.uid);
+    await updateSession(qAList, questionuid, answeruid, props.user.uid, props.user.uid, props.user.userrole);
     props.navigation.goBack();
   }
 

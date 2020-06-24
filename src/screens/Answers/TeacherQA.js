@@ -32,43 +32,58 @@ const TeacherQA = (props) => {
    
   useEffect(() => {
     const questionitem = props.navigation.getParam('questionitem')
-    async function fetchQAList(){
+    const getsubscribe = props.navigation.addListener('didFocus',()=> {
       database()
-      .ref(`/answer`)
-      .orderByChild('touid')
-      .equalTo(questionitem.uid)
-      .on('value', snapshot => {
-        let qalist = []
-        let questionUID = []
-        let answerUID = []
-        snapshot.forEach(item => {
-          if (item.val().parentkey == questionitem.parentkey){
-            qalist.push(item.val());
-            answerUID.push(item.val().uid);
-          }
-        })
-        database()
-          .ref(`/question`)
-          .orderByChild('uid')
-          .equalTo(questionitem.uid)
-          .on('value', subsnapshot => {
-            subsnapshot.forEach(subitem => {
-              if (subitem.val().parentkey == questionitem.parentkey){
-                qalist.push(subitem.val());
-                questionUID.push(subitem.val().uid);
-              }
-            })
-            setQAList(qalist.sort(function(a,b){return a.timestamp - b.timestamp})); 
-            setAnswerLength(answerUID.length);
-            setQuestionLength(questionUID.length);
-            setQuestionuid([...new Set(questionUID)]);
-            setAnsweruid([...new Set(answerUID)])
-            // let qaList = []
-            // qaList = qalist.filter(item => {return item.questionkey == questionitem.key})
-        })
+      .ref(`/users/${questionitem.uid}`)
+      .once('value')
+      .then(snapshot => {
+        global.session_amount = snapshot.val().session_amount;
       })
+    })
+
+    async function fetchQAList(){
+        database()
+        .ref(`/answer`)
+        .orderByChild('touid')
+        .equalTo(questionitem.uid)
+        .on('value', snapshot => {
+          let alist = []
+          let questionUID = []
+          let answerUID = []
+          snapshot.forEach(item => {
+            if (item.val().parentkey == questionitem.parentkey){
+              alist.push(item.val());
+              answerUID.push(item.val().uid);
+            }
+          })
+          database()
+            .ref(`/question`)
+            .orderByChild('uid')
+            .equalTo(questionitem.uid)
+            .on('value', subsnapshot => {
+              let qlist = []
+              subsnapshot.forEach(subitem => {
+                if (subitem.val().parentkey == questionitem.parentkey){
+                    qlist.push(subitem.val());
+                    questionUID.push(subitem.val().uid);
+                }
+              })
+              let qalist = [...qlist, ...alist];
+              setQAList(qalist.sort(function(a,b){return a.timestamp - b.timestamp})); 
+              setAnswerLength(answerUID.length);
+              setQuestionLength(questionUID.length);
+              setQuestionuid([...new Set(questionUID)]);
+              setAnsweruid([...new Set(answerUID)])
+              // let qaList = []
+              // qaList = qalist.filter(item => {return item.questionkey == questionitem.key})
+          })
+        })
     }
     fetchQAList()
+
+    return () => {
+      getsubscribe.remove()
+    }
   },[])
 
   const addPhotos = async() => {
@@ -144,8 +159,7 @@ const TeacherQA = (props) => {
 
   const closeSession = async() => {
     const questionitem = props.navigation.getParam('questionitem')
-    console.log('qAList=====', qAList, questionuid, answeruid, questionitem.uid)
-    await updateSession(qAList, questionuid, answeruid, questionitem.uid);
+    await updateSession(qAList, questionuid, answeruid, questionitem.uid, props.user.uid, props.user.userrole);
     props.navigation.goBack();
   }
 

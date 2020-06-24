@@ -19,6 +19,7 @@ const Answers = (props) => {
   const [sessionAmount, setSessionAmount] = useState(false);
   useEffect(() => {
     const getsubscribe = props.navigation.addListener('didFocus', () => {
+      console.log('fffffffffffffffffff')
       database()
       .ref(`/users/${props.user.uid}`)
       .once('value')

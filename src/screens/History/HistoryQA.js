@@ -67,36 +67,6 @@ const HistoryQA = (props) => {
     fetchQAList()
   },[])
 
-   const sendMessage = async() => {
-    const questionitem = props.navigation.getParam('questionitem')
-    if (content == ''){
-      return
-    }
-    if (/\s$/.test(content)){
-      return
-    }
-    const newReference = database()
-      .ref('/answer')
-      .push();
-    
-    newReference
-      .set({
-        content: content,
-        uid: props.user.uid,
-        touid: questionitem.uid,
-        email: props.user.email,
-        usertype: props.user.userrole,
-        contenttype: 'text',
-        key: newReference.key,
-        questionkey: questionitem.key,
-        type: 'answer',
-        timestamp: firebase.database.ServerValue.TIMESTAMP
-      })
-      .then(() => {
-        setContent('')
-      });
-  }
-
   const showMessage = () => {
     return qAList.length> 0 && qAList.map((item, index) => {
         return (

@@ -4,22 +4,31 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Image
+  Image,
+  Slider,
 } from 'react-native';
 import {SCREEN} from '../../common/Styles';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {connect} from 'react-redux';
 import CustomBlueButton from '../../components/CustomBlueButton';
 import HeaderLogo from '../../components/HeaderLogo';
+import RNDateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
 
 const ZoomClock = (props) => {
-  const [isvisible, setIsvisible] = useState(false);
-  const [isAccept, setIsAccept] = useState(false);
-  const [email, setEmail] = useState('');
-  const [subscribe, setSubscribe] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(moment(new Date()).format('LT').split(' '));
+  const [show, setShow] = useState(false); 
   const onPress = () => {
-    props.navigation.navigate('ZoomTimeZone')
+    props.navigation.navigate('ZoomTimeZone');
   }
+
+  const onChange = (event, selectedDate) => {
+    global.time = moment(selectedDate).format('LT');
+    let timeArr = moment(selectedDate).format('LT').split(' ');
+    setTime(timeArr)
+  };
+
     return (
       <View style={styles.container}>
         <TouchableOpacity onPress={() => props.navigation.goBack()} style={styles.backbuttonStyle}>
@@ -31,7 +40,33 @@ const ZoomClock = (props) => {
         <Text style={styles.textStyle}>
           At what time?
         </Text>
-        <Image source={require('../../assets/images/clock.png')} style={{marginBottom: 30}}/>
+        <TouchableOpacity onPress={() => setShow(true)} style={{flexDirection: 'row', marginVertical: 70}}>
+          <View style={[styles.timeView, {width: 120, marginRight: 20}]}>
+            <Text style={styles.timeText}>
+              {time[0]}
+            </Text> 
+          </View>
+          {/* <View style={{justifyContent: 'center', marginHorizontal: 15}}>
+            <Text style={{textAlign: 'center', fontSize: 30}}>
+              :
+            </Text>
+          </View> */}
+          <View style={styles.timeView}>
+            <Text style={styles.timeText}>
+            {time[1]}
+            </Text> 
+          </View>
+        </TouchableOpacity>
+        {show&&
+        <RNDateTimePicker 
+          value={date}
+          mode='time'
+          is24Hour={true}
+          display="clock"
+          onChange={onChange}
+          />
+        }
+        {/* <Image source={require('../../assets/images/clock.png')} style={{marginBottom: 30}}/> */}
         <CustomBlueButton title='Continue' onPress={onPress}/>
       </View>
     );
@@ -66,6 +101,30 @@ const styles = StyleSheet.create({
       position:'absolute',
       top: 20,
       left:0
+    }, 
+    welcome: {
+      fontSize: 20,
+      textAlign: 'center',
+      margin: 10,
     },
+    instructions: {
+      textAlign: 'center',
+      color: '#333333',
+      marginBottom: 5,
+    },
+    timeView: {
+      justifyContent: 'center', 
+      alignItems:'center', 
+      borderWidth: 1, 
+      borderColor:'#000', 
+      borderRadius: 10, 
+      width: 60, 
+      height: 60
+    },
+    timeText: {
+      textAlign: 'center', 
+      fontSize: 28, 
+      fontWeight:'bold'
+    }
   });
 

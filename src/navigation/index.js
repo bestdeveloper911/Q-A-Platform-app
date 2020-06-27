@@ -27,6 +27,7 @@ import ZoomTimeZoneScreen from '../screens/Tuition/ZoomTimeZone';
 import ZoomEmailScreen from '../screens/Tuition/ZoomEmail';
 import ZoomBuySessionScreen from '../screens/Tuition/ZoomBuySession';
 import ZoomThanksScreen from '../screens/Tuition/ZoomThanks';
+import TeacherZoomDetailScreen from '../screens/Tuition/TeacherZoomDetail';
 import LearnerQAScreen from '../screens/Answers/LearnerQA';
 import TeacherQuestionScreen from '../screens/Answers/TeacherQuestion';
 import TeacherQAScreen from '../screens/Answers/TeacherQA';
@@ -121,9 +122,10 @@ const AppNav = ({ user }) => {
     ZoomEmail: ZoomEmailScreen,
     ZoomBuySession: ZoomBuySessionScreen,
     ZoomThanks: ZoomThanksScreen,
+    TeacherZoomDetail: TeacherZoomDetailScreen,
     LearnerQA: LearnerQAScreen,
     TeacherQA: TeacherQAScreen,
-    HistoryQA: HistoryQAScreen
+    HistoryQA: HistoryQAScreen,
   }, {
     initialRouteName: 'TabNavigator',
     headerMode: 'none'

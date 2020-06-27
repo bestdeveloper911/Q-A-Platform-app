@@ -11,9 +11,6 @@ import Fontisto from 'react-native-vector-icons/Fontisto'
 
 const TeacherCreate = (props) => {
   const [value, onChangeText] = useState('');
-  useEffect(() => {
-    props.navigation.navigate('Auth');
-  },[])
 
   const movePage = (item) => {
     props.navigation.navigate(item);

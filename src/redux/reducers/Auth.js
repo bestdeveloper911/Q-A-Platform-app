@@ -15,19 +15,19 @@ export default (state = initial_state, action) => {
   console.log('action', action.payload)
   switch (action.type) {
     case AUTH_SUCCESS:
-      return { ...state, user: action.payload, islogin: true, activity: true, register:false }
+      return { ...state, user: action.payload, islogin: true, activity: true, register:false,error: false }
     case LOGOUT:
         return initial_state
     case REGISTER_SUCCESS: 
-      return {...state, user: action.payload, register: true, islogin: false}
+      return {...state, user: action.payload, register: true, islogin: false, error: false}
     // case AUTH_EXIST_FAIL:
     //   return {...state, existerror: true}
     // case AUTH_VALID_FAIL:
     //   return {...state, validerror: true}
     case AUTH_FAIL: 
-      return {...state, error: true, activity: false, register: false, user: null, islogin: false,}
+      return {...state, error: true, activity: false, register: false, user: null, islogin: false}
     case ACTIVITY_FAIL: 
-      return {...state, user: action.payload, activity: false, error: false, register: false}
+      return {...state, user: action.payload, activity: false, error: false, register: false, islogin: true}
     case SUBCRIBE_SUCCESS: 
       return {...state, subscribe: true}
     case REGISTER_FAIL: 

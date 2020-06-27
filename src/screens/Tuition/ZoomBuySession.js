@@ -10,11 +10,15 @@ import {
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import CustomBlueButton from '../../components/CustomBlueButton';
 import HeaderLogo from '../../components/HeaderLogo';
+import {createZoom} from '../../service/Zoom';
+import {connect} from 'react-redux';
 
 const ZoomBuySession = (props) => {
   const [isSelected, setSelection] = useState(false);
 
-  const onPress = () => {
+  const onPress = async() => {
+    const response = await createZoom(props.user.uid, global.date, global.time, global.timezone, global.emailAddress);
+    console.log(response)
     props.navigation.navigate('ZoomThanks');
   }
 
@@ -88,8 +92,13 @@ const ZoomBuySession = (props) => {
   );
 }
 
+ const mapStatToProps = state => {
+   return {
+     user: state.auth.user
+   }
+ }
 
-export default ZoomBuySession;
+export default connect(mapStatToProps)(ZoomBuySession);
 const styles = StyleSheet.create({
   container: {
     flex: 1,

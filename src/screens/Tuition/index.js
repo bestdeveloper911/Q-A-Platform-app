@@ -13,21 +13,49 @@ import HeaderZoom from '../../components/HeaderZoom';
 import {SCREEN} from '../../common/Styles';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {connect} from 'react-redux';
-import CustomBlueButton from '../../components/CustomBlueButton';
-import Dialog, { DialogButton, DialogContent } from 'react-native-popup-dialog';
-import CustomInput from '../../components/CustomInput';
+import database from '@react-native-firebase/database';
 
 const Tuition = (props) => {
-  const [isvisible, setIsvisible] = useState(false);
-  const [isAccept, setIsAccept] = useState(false);
-  const [email, setEmail] = useState('');
-  const onPress = () => {
-    setIsvisible(true);
-  }
+  const [zoomList, setZoomList] = useState([]);
+  
+  useEffect(() =>{
+    database()
+    .ref('/zoom')
+    .on('value', snapshot=> {
+      let zoomlist = [];
+      snapshot.forEach(element => {
+        if (!element.val().isaccept){
+          zoomlist.push(element.val())
+        }
+      });
+      setZoomList(zoomlist);
+  })
+  }, [])
 
   const moveToCalendar = () => {
-   props.navigation.navigate('ZoomCalendar')
+    props.navigation.navigate('ZoomCalendar')
   }
+
+  const renderItem = ({item, index}) => {
+    return (
+      <TouchableOpacity onPress={() => props.navigation.navigate('TeacherZoomDetail', {zoomitem: item})} key={index} style={styles.cardView}>
+        <View style={{ flexDirection: 'row', maxWidth: '80%' }}>
+          <View style={[styles.nameViewStyle, {backgroundColor: '#C1E9F5'}]}>
+            <Text style={styles.nameTextStyle}>
+              ZO
+            </Text>
+          </View>
+          <View>
+            <View style={styles.textMessageContentQuestion}>
+              <Text style={styles.textMessageQuestion}>
+                Zoom tuition from {item.learneremail}
+              </Text> 
+            </View>
+          </View>
+        </View>
+      </TouchableOpacity>
+    )
+  } 
 
   if (props.user.userrole == 0)
     return (
@@ -45,64 +73,20 @@ const Tuition = (props) => {
   else if (props.user.userrole == 1){
     return (
       <View style={styles.teacherContainer}>
-        <TouchableOpacity onPress={() => props.navigation.goBack()} style={styles.backbuttonStyle}>
-          <Fontisto name='angle-left' color='#000' size={32}/>
-        </TouchableOpacity>
-          <View style={{flexDirection: 'row', marginTop: 70}}>
-            <Text style={styles.titleTextStyle}>
-              Yolingo
+        {zoomList.length != 0?
+          <FlatList
+            data={zoomList}
+            extraData={zoomList}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => item.id}
+          />
+          :
+          <View style={styles.blankView}>
+            <Text style={styles.teacherBlankTextStyle}>
+              There are currently no Zoom tuition sessions
             </Text>
-            <View style={{justifyContent: 'center', marginLeft: 5, marginTop: 3}}>
-              <Image source={require('../../assets/images/video-camera.png')}/>
-            </View>
           </View>
-          <View style={styles.teacherCard}>
-            <Image source={require('../../assets/images/avatar.png')} style={styles.avatarImageStyle}/>
-            <Text style={styles.cardTextStyle}>Name:</Text>
-            <Text style={styles.cardTextStyle}>Date:</Text>
-            <Text style={styles.cardTextStyle}>Time:</Text>
-            <Text style={styles.cardTextStyle}>Time Zone:</Text>
-          </View>
-          {isAccept?
-            <View>
-              <CustomInput 
-                inputWrapperStyle={{
-                    marginBottom: 40,
-                    paddingLeft:10
-                }}
-                value={email}
-                placeholder="email address"
-                placeholderTextColor="#6C6C6C"
-                onChangeText={(text)=>setEmail(text)}
-              />
-              <Text style={styles.bottomTextStyle}>
-                Please send a Zoom email invitation to the recipient at the email address above.
-              </Text>
-            </View>
-            :
-            <CustomBlueButton title='Accept' ButtonStyle={{backgroundColor: '#F6323E'}} onPress={onPress}/>
-          }
-          <Dialog
-            visible={isvisible}
-            onTouchOutside={() => {setIsvisible(false)}}
-            dialogStyle={styles.dialogStyle}
-            >
-            <DialogContent style={{height: SCREEN.HEIGHT*0.8, marginHorizontal: 30}}>
-              <View style={{flex:1, alignItems: 'center'}}>
-                <Text style={styles.modalTextStyle}>
-                  Are you sure you want to accept this tuition session?
-                </Text>
-                <View style={{flexDirection: 'row', alignItems:'center'}}>
-                  <TouchableOpacity onPress={() => {setIsAccept(true); setIsvisible(false)}} style={styles.modalButtonStyle}>
-                    <Text style={styles.buttonTextStyle}>Yes</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => {setIsAccept(false); setIsvisible(false)}} style={[styles.modalButtonStyle, {backgroundColor: '#347EE9'}]}>
-                    <Text style={styles.buttonTextStyle}>No</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </DialogContent>
-        </Dialog> 
+        }
       </View>
     );
   }
@@ -124,76 +108,20 @@ const styles = StyleSheet.create({
     teacherContainer: {
       flex: 1,
       backgroundColor: '#FFF',
-      alignItems: 'center',
-      marginHorizontal: 15
+      // alignItems: 'center',
     },
-    titleTextStyle: {
-      fontSize: 32, 
-      fontWeight: 'bold', 
-      color: '#000',
-      fontFamily: 'sans-serif',
-      letterSpacing: -1
+    blankView: {
+      flex:1,
+      justifyContent: 'center',
+      alignSelf: 'center'
     },
-    teacherCard: {
-      borderColor: '#000',
-      width: '85%',
-      marginTop: 30,
-      borderWidth: 2,
-      borderRadius: 25,
-      height: 200,
-      marginBottom: 40
-    },
-    cardTextStyle:{
-      fontSize: 18,
-      fontWeight: '700',
-      marginLeft: 20,
-      marginBottom: 3
-    },
-    avatarImageStyle: {
-      alignSelf: 'center', 
-      marginTop: 5, 
-      marginBottom: 15
-    },
-    backbuttonStyle:{
-      position:'absolute',
-      top: 20,
-      left:0
-    },
-    dialogStyle:{
-      width: SCREEN.WIDTH*0.8,
-      height: SCREEN.HEIGHT*0.6
-    },
-    dialogContentStyle:{
-        width: SCREEN.WIDTH*0.9,
-        height: SCREEN.HEIGHT*0.8
-    },
-    modalTextStyle: {
-      marginTop: 60, 
-      fontSize: 30, 
-      fontWeight: 'bold', 
-      textAlign: 'center',
-      marginBottom: 30
-    },
-    modalButtonStyle: {
-      width: 80, 
-      height: 70, 
-      borderRadius: 10, 
-      backgroundColor: '#F6323E',
-      marginHorizontal: 10,
-      justifyContent: 'center'
-    },
-    buttonTextStyle: {
-      textAlign: 'center',
-      fontSize: 30,
-      fontWeight: 'bold',
-      color: '#FFF'
-    },
-    bottomTextStyle: {
+    teacherBlankTextStyle: {
+      color: '#9D9D9C', 
+      fontSize: 40, 
       textAlign: 'center', 
-      fontSize: 20, 
-      marginHorizontal: 50, 
-      fontWeight: 'bold', 
-      fontFamily: 'sans-serif-light'
+      marginHorizontal: 40,
+      letterSpacing: 2,
+      fontWeight: 'bold'
     },
     //learner style//
     backgroundImageStyle: {
@@ -209,6 +137,62 @@ const styles = StyleSheet.create({
       marginHorizontal: 40,
       marginTop: 40, 
       fontFamily: 'Roboto'
+    },
+    nameTextStyle: {
+      fontFamily: 'Roboto', 
+      fontSize: 16,
+      color: '#FFF'
+    },
+    nameViewStyle: {
+      width: 40, 
+      height: 40, 
+      borderRadius: 10, 
+      justifyContent:'center', 
+      alignItems: 'center'
+    },
+    contentTextStyle: {
+      fontFamily: 'Roboto', 
+      fontSize: 12, 
+      color: '#6C6C6C',
+      marginVertical: 3
+    },
+    cardView: {
+      marginHorizontal: 10,
+      borderColor: 'gray',
+      backgroundColor: '#FAF4F9', 
+      borderWidth: 1,
+      borderRadius: 10,
+      marginVertical: 7,
+      paddingHorizontal: 5,
+      paddingVertical: 8
+    },
+    textMessageContentQuestion: {
+      flexDirection: 'column', 
+      marginLeft: 10, 
+      // backgroundColor: '#FAF4F9', 
+      paddingHorizontal: 18, 
+      paddingVertical: 12,
+      borderTopLeftRadius:3,
+      borderTopRightRadius: 10,
+      borderBottomLeftRadius: 10,
+      borderBottomRightRadius: 10,
+      alignSelf: 'flex-start'
+    },
+    textMessageQuestion: {
+      fontFamily: 'Roboto',
+      fontSize: 14
+    },
+    textMessageContentAnswer: {
+      // flexDirection: 'column', 
+      marginRight: 10, 
+      backgroundColor: '#fe524d', 
+      paddingHorizontal: 10, 
+      paddingVertical: 10,
+      borderTopLeftRadius:10,
+      borderTopRightRadius: 10,
+      borderBottomLeftRadius: 10,
+      borderBottomRightRadius: 3,
+      // alignSelf: 'flex-end'
     },
   });
 

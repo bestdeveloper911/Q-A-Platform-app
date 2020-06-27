@@ -13,11 +13,11 @@ import CustomBlueButton from '../../components/CustomBlueButton';
 import HeaderLogo from '../../components/HeaderLogo';
 
 const ZoomEmail = (props) => {
-  const [selected, setSelected] = useState('');
   const [email, setEmail] = useState('');
 
   const onPress = () => {
-    props.navigation.navigate('ZoomBuySession')
+    global.emailAddress = email;
+    props.navigation.navigate('ZoomBuySession');
   }
     return (
       <View style={styles.container}>

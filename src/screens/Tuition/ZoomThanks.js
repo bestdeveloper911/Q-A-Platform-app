@@ -15,7 +15,7 @@ const ZoomThanks = (props) => {
   const [isSelected, setSelection] = useState(false);
 
   const closePage = () => {
-    props.navigation.goBack();
+    props.navigation.navigate('TUITION');
   }
 
   return (

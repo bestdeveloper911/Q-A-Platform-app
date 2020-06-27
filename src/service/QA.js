@@ -1,5 +1,4 @@
 import database, { firebase } from '@react-native-firebase/database'
-import { cos } from 'react-native-reanimated'
 
 export const subscribe = async (status, uid) => {
    await database()

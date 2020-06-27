@@ -10,10 +10,7 @@ import {
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
 const Register = (props) => {
-  useEffect(() => {
-    // props.navigation.navigate('Auth');
-  },[])
-
+  
   const movePage = (item) => {
     props.navigation.navigate(item)
   }

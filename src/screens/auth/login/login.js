@@ -34,12 +34,12 @@ const LoginInfo = (props) => {
   }
 
   useEffect(() => {
+    console.log('IIIIIIIIIIIIIII')
     if (props.auth.user != null && props.islogin){
       if (props.auth.user.userrole == 1){
         if (props.auth.activity){
           props.navigation.navigate('Notification');
         } else{
-          console.log('I am ehre')
           Toast.show('No activate!')  
         }
       } else {
@@ -48,7 +48,7 @@ const LoginInfo = (props) => {
     } else if (props.auth.error){
       Toast.show('Email or Password is wrong!')
     }
-  }, [props.auth])
+  }, [props.auth, props.islogin])
 
   return (
     <KeyboardAwareScrollView style={styles.container}>

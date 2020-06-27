@@ -94,7 +94,6 @@ const History = (props) => {
       const textData = text.toUpperCase();
       return itemData.indexOf(textData) > -1;
     });
-    console.log(newData)
     setQAList(newData);
     setSearchtext(text);
   }

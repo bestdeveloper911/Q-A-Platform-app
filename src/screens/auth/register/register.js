@@ -4,13 +4,15 @@ import {
   TextInput,
   View,
   Text,
-  ActivityIndicator
+  ActivityIndicator,
+  ToastAndroid
 } from 'react-native';
 import CustomButton from '../../../components/CustomButton'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { bindActionCreators } from 'redux';
 import {onRegister} from '../../../redux/actions/Auth'
 import {connect} from 'react-redux';
+import Toast from 'react-native-simple-toast';
 
 const RegisterInfo = (props) => {
   const [name, setName] = useState('');
@@ -20,6 +22,10 @@ const RegisterInfo = (props) => {
 
 
   const movePage = async() => {
+    if (name == '' || email == '' || password == ''){
+      Toast.show('Please fill all input');
+      return;
+    }
     props.onRegister({name, email, password});
   }
 

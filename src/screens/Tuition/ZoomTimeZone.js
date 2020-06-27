@@ -4,7 +4,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  ToastAndroid
 } from 'react-native';
 import {SCREEN} from '../../common/Styles';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -12,6 +13,7 @@ import {connect} from 'react-redux';
 import CheckBox from 'react-native-check-box';
 import CustomBlueButton from '../../components/CustomBlueButton';
 import HeaderLogo from '../../components/HeaderLogo';
+import Toast from 'react-native-simple-toast';
 
 const ZoomTimeZone = (props) => {
   const [selected, setSelected] = useState('');
@@ -29,7 +31,12 @@ const ZoomTimeZone = (props) => {
   }
 
   const onPress = () => {
-    props.navigation.navigate('ZoomEmail')
+    if (selected == ''){
+      Toast.show('Please select timezone');
+      return
+    }
+    global.timezone = selected;
+    props.navigation.navigate('ZoomEmail');
   }
     return (
       <View style={styles.container}>

@@ -109,7 +109,7 @@ const History = (props) => {
         onChangeText={text => searchFilterFunction(text)}
         value={searchtext}
         underlineColorAndroid="transparent"
-        placeholder="Search Here"
+        placeholder="Type keywords"
       />
       }
       <KeyboardAwareScrollView 

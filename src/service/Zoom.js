@@ -1,6 +1,6 @@
 import database, { firebase } from '@react-native-firebase/database'
 
-export const createZoom = async (uid, date, time, timezone, emailAddress) => {
+export const createZoom = async (uid, date, time, timezone, emailAddress, name) => {
     const newReference = database()
         .ref('/zoom')
         .push();
@@ -14,6 +14,7 @@ export const createZoom = async (uid, date, time, timezone, emailAddress) => {
             learneremail: emailAddress,
             key: newReference.key,
             type: 'zoom',
+            name: name,
             timestamp: firebase.database.ServerValue.TIMESTAMP
           })
           .then(() => {

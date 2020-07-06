@@ -13,6 +13,7 @@ import HeaderAnswer from '../../components/HeaderAnswer';
 import {SCREEN} from '../../common/Styles';
 import {connect} from 'react-redux';
 import database from '@react-native-firebase/database';
+import messaging from '@react-native-firebase/messaging';
 
 const Answers = (props) => {
   const [subscribe, setSubscribe] = useState(false);
@@ -32,7 +33,6 @@ const Answers = (props) => {
       getsubscribe.remove()
     }
   }, [])
-
 
   const moveToSubscribe = () => {
     if (subscribe){

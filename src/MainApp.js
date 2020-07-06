@@ -1,24 +1,23 @@
-import React, { Component } from 'react'
-import {View} from 'react-native'
-import {connect} from "react-redux";
+import React, { useEffect } from 'react'
+import {View, Alert} from 'react-native'
 import AppNavigation from './navigation';
-import { LoadingModal } from './components/LoadingModal';
-import withLoader from './redux/actions/withLoader';
+import messaging from '@react-native-firebase/messaging';
 
-class MainApp extends Component {
-  constructor(props){
-    super(props);
-    console.disableYellowBox = true;
+export function MainApp(){
+  console.disableYellowBox = true;
+  // useEffect(() => {
+  //   const unsubscribe = messaging().onMessage(async remoteMessage => {
+  //     Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+  //   });
 
-  }
- 
-  render() {
-    return (
-      <View style={{ flex: 1 }} >
-        <AppNavigation />
-      </View>
-    )
-  }
+  //   return unsubscribe;
+  // }, []);
+
+  return (
+    <View style={{ flex: 1 }} >
+      <AppNavigation />
+    </View>
+  )
 }
 export default MainApp
 

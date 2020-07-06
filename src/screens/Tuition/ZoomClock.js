@@ -19,14 +19,26 @@ const ZoomClock = (props) => {
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(moment(new Date()).format('LT').split(' '));
   const [show, setShow] = useState(false); 
+  const [aP, setAP] = useState('AM')
   const onPress = () => {
+    global.time = time[0] + ' '+ aP;
+    console.log('global.time',global.time)
     props.navigation.navigate('ZoomTimeZone');
   }
 
+  const onChangeAP = () => {
+    if (aP == 'AM'){
+      setAP('PM')
+    } else {
+      setAP('AM')
+    }
+  }
+
   const onChange = (event, selectedDate) => {
-    global.time = moment(selectedDate).format('LT');
+    // global.time = moment(selectedDate).format('LT');
     let timeArr = moment(selectedDate).format('LT').split(' ');
     setTime(timeArr)
+    setShow(false)
   };
 
     return (
@@ -40,28 +52,27 @@ const ZoomClock = (props) => {
         <Text style={styles.textStyle}>
           At what time?
         </Text>
-        <TouchableOpacity onPress={() => setShow(true)} style={{flexDirection: 'row', marginVertical: 70}}>
+        <View style={{flexDirection: 'row', marginVertical: 70}}>
+        <TouchableOpacity onPress={() => setShow(true)}>
           <View style={[styles.timeView, {width: 120, marginRight: 20}]}>
             <Text style={styles.timeText}>
               {time[0]}
             </Text> 
           </View>
-          {/* <View style={{justifyContent: 'center', marginHorizontal: 15}}>
-            <Text style={{textAlign: 'center', fontSize: 30}}>
-              :
-            </Text>
-          </View> */}
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => onChangeAP()}>
           <View style={styles.timeView}>
             <Text style={styles.timeText}>
-            {time[1]}
+            {aP}
             </Text> 
           </View>
         </TouchableOpacity>
+        </View>
         {show&&
         <RNDateTimePicker 
           value={date}
           mode='time'
-          is24Hour={true}
+          is24Hour={false}
           display="clock"
           onChange={onChange}
           />

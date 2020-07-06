@@ -33,8 +33,8 @@ const LoginInfo = (props) => {
     await props.onLogin({email, password});
   }
 
+  
   useEffect(() => {
-    console.log('IIIIIIIIIIIIIII')
     if (props.auth.user != null && props.islogin){
       if (props.auth.user.userrole == 1){
         if (props.auth.activity){

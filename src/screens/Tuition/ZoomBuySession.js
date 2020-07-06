@@ -12,12 +12,28 @@ import CustomBlueButton from '../../components/CustomBlueButton';
 import HeaderLogo from '../../components/HeaderLogo';
 import {createZoom} from '../../service/Zoom';
 import {connect} from 'react-redux';
+import database from '@react-native-firebase/database'
 
 const ZoomBuySession = (props) => {
+  const [name, setName] = useState('');
   const [isSelected, setSelection] = useState(false);
 
+  useEffect(() => {
+    database()
+    .ref('/users')
+    .orderByChild('uid')
+    .equalTo(props.user.uid)
+    .once('value')
+    .then(snapshot => {
+      snapshot.forEach(element => {
+        setName(element.val().name)  
+      });
+    })
+  }, [])
+
+
   const onPress = async() => {
-    const response = await createZoom(props.user.uid, global.date, global.time, global.timezone, global.emailAddress);
+    const response = await createZoom(props.user.uid, global.date, global.time, global.timezone, global.emailAddress, name);
     console.log(response)
     props.navigation.navigate('ZoomThanks');
   }

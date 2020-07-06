@@ -40,15 +40,14 @@ const Tuition = (props) => {
     return (
       <TouchableOpacity onPress={() => props.navigation.navigate('TeacherZoomDetail', {zoomitem: item})} key={index} style={styles.cardView}>
         <View style={{ flexDirection: 'row', maxWidth: '80%' }}>
-          <View style={[styles.nameViewStyle, {backgroundColor: '#C1E9F5'}]}>
-            <Text style={styles.nameTextStyle}>
-              ZO
-            </Text>
+          <View style={[styles.nameViewStyle]}>
+            <Image source={require('../../assets/images/user.png')} style={{width: 40, height: 40}}/>
+            <Text>{item.name}</Text>
           </View>
           <View>
             <View style={styles.textMessageContentQuestion}>
               <Text style={styles.textMessageQuestion}>
-                Zoom tuition from {item.learneremail}
+                {item.date} | {item.time} | {item.timezone}
               </Text> 
             </View>
           </View>
@@ -144,11 +143,12 @@ const styles = StyleSheet.create({
       color: '#FFF'
     },
     nameViewStyle: {
-      width: 40, 
+      width: 70, 
       height: 40, 
       borderRadius: 10, 
-      justifyContent:'center', 
-      alignItems: 'center'
+      justifyContent:'center',
+      alignSelf: 'center', 
+      alignItems:'flex-start'
     },
     contentTextStyle: {
       fontFamily: 'Roboto', 
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     },
     textMessageQuestion: {
       fontFamily: 'Roboto',
-      fontSize: 14
+      fontSize: 16
     },
     textMessageContentAnswer: {
       // flexDirection: 'column', 

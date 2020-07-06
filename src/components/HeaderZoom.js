@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
   headerButtonStyle: {
     backgroundColor: '#347EE9',
     borderRadius: 14,
+    marginRight: 15,
     justifyContent:'center'
   },
   headerButtonTextStyle: {
@@ -43,8 +44,8 @@ const styles = StyleSheet.create({
     fontSize: 20, 
     fontWeight: '700', 
     color:'#FFF', 
-    paddingHorizontal: 10, 
-    paddingVertical: 5
+    paddingHorizontal: 14, 
+    paddingVertical: 10
   }
 });
 export default HeaderZoom

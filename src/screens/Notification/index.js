@@ -52,7 +52,6 @@ const Notification = (props) => {
     if (props.user.userrole == 1){
       props.navigation.navigate('QUESTIONS');
     } else {
-      console.log('I am here')
       props.navigation.navigate('ANSWERS');
     }
   }

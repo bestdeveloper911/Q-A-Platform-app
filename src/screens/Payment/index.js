@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {Component} from 'react';
 import {
   StyleSheet,
   Image,
@@ -6,11 +6,15 @@ import {
   Text,
   TouchableOpacity,
   CheckBox,
-  ScrollView
+  ScrollView,
+  Modal,
+  FlatList
 } from 'react-native';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {onSubscribe} from '../../redux/actions/QA'
 import CustomBlueButton from '../../components/CustomBlueButton';
+import AsyncStorage from '@react-native-community/async-storage';
+import * as RNIap from "react-native-iap";
 import {connect} from 'react-redux';
 
 const itemSkus = Platform.select({
@@ -56,7 +60,7 @@ class Payment extends React.Component {
 		try {
 			const result = await RNIap.initConnection();
 			if (Platform.OS === "android") {
-				await RNIap.consumeAllItems();
+				await RNIap.consumeAllItemsAndroid();
 			}
 		} catch (err) {
 			console.warn(err.code, err.message);
@@ -160,7 +164,7 @@ class Payment extends React.Component {
 	};
 
 	afterSetStateChangeSubscription = async () => {
-		const products = await RNIap.getSubscriptions(itemSubs);
+    const products = await RNIap.getSubscriptions(itemSubs);
 
 		if (Platform.OS === "ios") {
 			this.onPressSubscription(itemSubs[0]);
@@ -413,7 +417,7 @@ class Payment extends React.Component {
               <View style={styles.checkboxContainer}>
                 <CheckBox
                   value={isSelected}
-                  onValueChange={this.setState({isSelected: !isSelected})}
+                  onValueChange={() => this.setState({isSelected: !isSelected})}
                   style={styles.checkbox}
                 />
                 <Text style={styles.label}>I agree to the subscription terms</Text>

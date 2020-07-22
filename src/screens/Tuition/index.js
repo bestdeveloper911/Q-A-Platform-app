@@ -131,10 +131,10 @@ const styles = StyleSheet.create({
     answerTextStyle: {
       textAlign:'center', 
       color: '#FFF', 
-      fontSize: 28, 
+      fontSize: 38, 
       fontWeight: '700',
-      marginHorizontal: 40,
-      marginTop: 40, 
+      marginHorizontal: 20,
+      marginTop: 30, 
       fontFamily: 'Roboto'
     },
     nameTextStyle: {

@@ -13,6 +13,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {onLogin} from '../../../redux/actions/Auth'
 import Toast from 'react-native-simple-toast';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const LoginInfo = (props) => {
   const [name, setName] = useState('');
@@ -105,9 +106,24 @@ const LoginInfo = (props) => {
         <ActivityIndicator size='large' color='#F6323E'/>
       </View>
       }
-      <Text style={{textAlign: 'center', color: '#FFF', marginTop: 20}}>
-          By clicking on "Create an account" you agree to our Terms of Use and Privacy Policy.
-      </Text>
+      <View>
+        <TouchableOpacity onPress={() => props.navigation.navigate('Privacy')}>
+          <Text style={{textAlign: 'center', color: '#FFF', marginTop: 20}}>
+              By clicking on "Create an account" you agree to our
+          </Text>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <Text style={{textAlign: 'center', color: '#FFF', textDecorationLine: 'underline', fontWeight: 'bold'}}>
+              Terms of Use
+            </Text>
+            <Text style={{textAlign: 'center', color: '#FFF', marginHorizontal: 8}}>
+              and
+            </Text>
+            <Text style={{textAlign: 'center', color: '#FFF', textDecorationLine: 'underline', fontWeight: 'bold'}}>
+              Privacy Policy.
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
       </View>
     </KeyboardAwareScrollView>
   );

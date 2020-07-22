@@ -13,6 +13,7 @@ import ThanksScreen from '../screens/auth/register/teacherRegister/thanks';
 import EmailScreen from '../screens/auth/register/teacherRegister/addEmail';
 import CountryScreen from '../screens/auth/register/teacherRegister/country';
 import RegisterScreen from '../screens/auth/register';
+import PrivacyScreen from '../screens/auth/privacy';
 import RegisterInfoScreen from '../screens/auth/register/register';
 import PaymentScreen from '../screens/Payment';
 import NotificationScreen from '../screens/Notification';
@@ -143,7 +144,8 @@ const AppNav = ({ user }) => {
     LoginInfo: LoginInfoScreen,
     Register: RegisterScreen,
     RegisterInfo: RegisterInfoScreen,
-    TeacherCreate: TeacherCreateScreen
+    TeacherCreate: TeacherCreateScreen,
+    Privacy: PrivacyScreen
   }, {
     headerMode: 'none',
     initialRouteName: 'GetStart'

@@ -41,11 +41,11 @@ const styles = StyleSheet.create({
   },
   headerButtonTextStyle: {
     textAlign: 'center', 
-    fontSize: 20, 
+    fontSize: 22, 
     fontWeight: '700', 
     color:'#FFF', 
-    paddingHorizontal: 14, 
-    paddingVertical: 10
+    paddingHorizontal: 18, 
+    paddingVertical: 14
   }
 });
 export default HeaderZoom

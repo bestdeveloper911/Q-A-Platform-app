@@ -19,18 +19,18 @@ const ZoomClock = (props) => {
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(moment(new Date()).format('LT').split(' '));
   const [show, setShow] = useState(false); 
-  const [aP, setAP] = useState('AM')
+  const [aP, setAP] = useState('')
   const onPress = () => {
     global.time = time[0] + ' '+ aP;
     console.log('global.time',global.time)
     props.navigation.navigate('ZoomTimeZone');
   }
 
-  const onChangeAP = () => {
-    if (aP == 'AM'){
-      setAP('PM')
-    } else {
+  const onChangeAP = (flag) => {
+    if (flag == 'AM'){
       setAP('AM')
+    } else {
+      setAP('PM')
     }
   }
 
@@ -53,20 +53,27 @@ const ZoomClock = (props) => {
           At what time?
         </Text>
         <View style={{flexDirection: 'row', marginVertical: 70}}>
-        <TouchableOpacity onPress={() => setShow(true)}>
-          <View style={[styles.timeView, {width: 120, marginRight: 20}]}>
-            <Text style={styles.timeText}>
-              {time[0]}
-            </Text> 
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => onChangeAP()}>
-          <View style={styles.timeView}>
-            <Text style={styles.timeText}>
-            {aP}
-            </Text> 
-          </View>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => setShow(true)}>
+            <View style={[styles.timeView, {width: 120, marginRight: 20}]}>
+              <Text style={styles.timeText}>
+                {time[0]}
+              </Text> 
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => onChangeAP('AM')}>
+            <View style={[styles.timeView, {backgroundColor: aP == 'AM'?'gray': '#FFF'}]}>
+              <Text style={styles.timeText}>
+                AM
+              </Text> 
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={{marginLeft: 10}} onPress={() => onChangeAP('PM')}>
+            <View style={[styles.timeView, {backgroundColor: aP == 'PM'?'gray':'#FFF'}]}>
+              <Text style={styles.timeText}>
+                PM
+              </Text> 
+            </View>
+          </TouchableOpacity>
         </View>
         {show&&
         <RNDateTimePicker 

@@ -14,7 +14,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import {onSubscribe} from '../../redux/actions/QA'
 import CustomBlueButton from '../../components/CustomBlueButton';
 import AsyncStorage from '@react-native-community/async-storage';
-import * as RNIap from "react-native-iap";
+import RNIap from 'react-native-iap';
 import {connect} from 'react-redux';
 
 const itemSkus = Platform.select({
@@ -22,7 +22,7 @@ const itemSkus = Platform.select({
 		"student1" //purchase
 	],
 	android: [
-		"com.purchase.coin" // purchase
+		"zoom.yolingo.purchase" // purchase
 	]
 });
 
@@ -31,7 +31,8 @@ const itemSubs = Platform.select({
 		"com.autorenewingtest" //subscription
 	],
 	android: [
-		"rn.sub.monthly" // subscription
+		"com.qa_zoom.yolingo.productid"	
+		// "qa_zoom.sub.monthly" // subscription
 	]
 });
 
@@ -41,20 +42,20 @@ class Payment extends React.Component {
     this.state={
       isSelected: false,
       productList: [],
-			receipt: "",
-			availableItemsMessage: "",
-			purchaseIndicator: false,
-			subscriptionIndicator: false,
-			availableIndicator: false,
-			modalVisible: false,
-			validateItem: [],
+		receipt: "",
+		availableItemsMessage: "",
+		purchaseIndicator: false,
+		subscriptionIndicator: false,
+		availableIndicator: false,
+		modalVisible: false,
+		validateItem: [],
     }
   }
   // const [isSelected, setSelection] = useState(false);
-  // const onPress = () => {
-  //   props.onSubscribe(true, props.user.uid)
-  //   props.navigation.goBack();
-  // }
+  onPress = () => {
+    this.props.onSubscribe(true, this.props.user.uid)
+    this.props.navigation.goBack();
+  }
 
   async componentDidMount() {
 		try {
@@ -164,7 +165,9 @@ class Payment extends React.Component {
 	};
 
 	afterSetStateChangeSubscription = async () => {
-    const products = await RNIap.getSubscriptions(itemSubs);
+	// const products = await RNIap.getSubscriptions(itemSubs);
+	const products = await RNIap.getProducts(itemSkus);
+	console.log('products===========', products)
 
 		if (Platform.OS === "ios") {
 			this.onPressSubscription(itemSubs[0]);
@@ -327,8 +330,6 @@ class Payment extends React.Component {
   }
 
   renderItem = ({ item, index }) => {
-		console.log(this.state.validateItem[index]);
-		console.log(item.productId);
 		return (
 			<View style={{ flex: 1 }} key={index}>
 				<TouchableOpacity
@@ -420,7 +421,10 @@ class Payment extends React.Component {
                   onValueChange={() => this.setState({isSelected: !isSelected})}
                   style={styles.checkbox}
                 />
-                <Text style={styles.label}>I agree to the subscription terms</Text>
+				<View style={{flexDirection: 'row'}}>
+                	<Text style={styles.label}>I agree to the</Text>
+					<Text style={[styles.label, {fontWeight: 'bold'}]}> subscription terms</Text>
+				</View>
               </View>
               <Modal
                 animationType="slide"
@@ -449,8 +453,8 @@ class Payment extends React.Component {
                   </TouchableOpacity>
                 </View>
               </Modal>
-          <CustomBlueButton title='Try it FREE for 3 days' onPress={this.getSubscriptions}/>
-          <CustomBlueButton title='Subscribe' ButtonStyle={{marginVertical: 30}} onPress={this.getSubscriptions}/>
+          <CustomBlueButton title='Try it  FREE for 3 days' ButtonStyle={{marginTop: 15 }} onPress={this.onPress}/>
+          {/* <CustomBlueButton title='Subscribe' ButtonStyle={{marginVertical: 30}} onPress={this.getSubscriptions}/>I */}
         </View>
       </ScrollView>
     );
@@ -486,7 +490,7 @@ const styles = StyleSheet.create({
   },
   label: {
     textAlignVertical: "center",
-    fontSize: 16
+	fontSize: 16,
   },
   textStyle: {
     fontSize: 22,

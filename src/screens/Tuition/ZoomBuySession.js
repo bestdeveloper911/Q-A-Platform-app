@@ -417,7 +417,10 @@ class ZoomBuySession extends React.Component {
               onValueChange={() => this.setState({isSelected: !isSelected})}
               style={styles.checkbox}
             />
-            <Text style={styles.label}>I agree to the terms</Text>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.label}>I agree to the </Text>
+            <Text style={[styles.label, {fontWeight: 'bold'}]}>terms</Text>
+          </View>
           </View>
           <CustomBlueButton title='Buy a Session' onPress={this.onPress}/>
           <Modal

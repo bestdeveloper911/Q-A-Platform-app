@@ -15,6 +15,10 @@ const Register = (props) => {
     props.navigation.navigate(item)
   }
 
+  const goToFlag = () => {
+    props.navigation.navigate('Privacy')
+  }
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => props.navigation.goBack()} style={styles.backbuttonStyle}>
@@ -75,10 +79,25 @@ const Register = (props) => {
           </Text>
         </View>
       </TouchableOpacity>
-      <View style={{flexDirection: 'row', alignSelf:'center'}}>
+      <View style={{alignSelf:'center'}}>
         <Text style={styles.login}>
-          By creating an account you agree to our privacy policy and terms of service.
+          By logging in to Yolingo you agree to our
         </Text>
+        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+          <TouchableOpacity onPress={goToFlag}>
+            <Text style={styles.privacy}>
+              privacy policy
+            </Text>
+          </TouchableOpacity>
+          <Text style={[styles.login, {marginHorizontal: 7}]}>
+            and
+          </Text>
+          <TouchableOpacity onPress={goToFlag}>
+            <Text style={styles.privacy}>
+              terms of service.
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -112,12 +131,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding:8
   },
-  
   login: {
     fontSize: 17,
     color: '#FFF',
     textAlign:'center',
-    fontWeight:'bold'
+  },
+  privacy: {
+    fontSize: 17,
+    color: '#FFF',
+    textAlign:'center',
+    fontWeight:'bold',
+    textDecorationLine: 'underline'
   }
 });
 

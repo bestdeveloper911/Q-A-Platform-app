@@ -54,8 +54,13 @@ class Payment extends React.Component {
   // const [isSelected, setSelection] = useState(false);
   onPress = () => {
     this.props.onSubscribe(true, this.props.user.uid)
-    this.props.navigation.goBack();
+    this.props.navigation.navigate('freeTrial');
   }
+
+  goToFlag = () => {
+    this.props.navigation.navigate('Privacy', {backpage: 'payment'})
+  }
+
 
   async componentDidMount() {
 		try {
@@ -423,7 +428,9 @@ class Payment extends React.Component {
                 />
 				<View style={{flexDirection: 'row'}}>
                 	<Text style={styles.label}>I agree to the</Text>
-					<Text style={[styles.label, {fontWeight: 'bold'}]}> subscription terms</Text>
+					<TouchableOpacity onPress={this.goToFlag} style={{alignSelf: 'center'}}>
+						<Text style={[styles.label, {fontWeight: 'bold'}]}> subscription terms</Text>
+					</TouchableOpacity>
 				</View>
               </View>
               <Modal

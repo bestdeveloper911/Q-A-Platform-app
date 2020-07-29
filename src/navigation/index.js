@@ -13,9 +13,10 @@ import ThanksScreen from '../screens/auth/register/teacherRegister/thanks';
 import EmailScreen from '../screens/auth/register/teacherRegister/addEmail';
 import CountryScreen from '../screens/auth/register/teacherRegister/country';
 import RegisterScreen from '../screens/auth/register';
-import PrivacyScreen from '../screens/auth/privacy';
+import PrivacyScreen from '../screens/privacy';
 import RegisterInfoScreen from '../screens/auth/register/register';
 import PaymentScreen from '../screens/Payment';
+import freeTrialScreen from '../screens/Payment/freeTrial';
 import NotificationScreen from '../screens/Notification';
 import LearnerCreateScreen from '../screens/auth/register/learnerRegister/learnerCreate';
 import TeacherCreateScreen from '../screens/auth/register/teacherRegister/teacherCreate';
@@ -28,6 +29,7 @@ import ZoomTimeZoneScreen from '../screens/Tuition/ZoomTimeZone';
 import ZoomEmailScreen from '../screens/Tuition/ZoomEmail';
 import ZoomBuySessionScreen from '../screens/Tuition/ZoomBuySession';
 import ZoomThanksScreen from '../screens/Tuition/ZoomThanks';
+import ZoomTodayScreen from '../screens/Tuition/ZoomToday';
 import TeacherZoomDetailScreen from '../screens/Tuition/TeacherZoomDetail';
 import LearnerQAScreen from '../screens/Answers/LearnerQA';
 import TeacherQuestionScreen from '../screens/Answers/TeacherQuestion';
@@ -116,12 +118,14 @@ const AppNav = ({ user }) => {
   const MainStackNavigator = createStackNavigator({
     TabNavigator,
     Payment: PaymentScreen,
+    freeTrial: freeTrialScreen,
     Notification: NotificationScreen,
     ZoomCalendar: ZoomCalendarScreen,
     ZoomClock: ZoomClockScreen,
     ZoomTimeZone: ZoomTimeZoneScreen,
     ZoomEmail: ZoomEmailScreen,
     ZoomBuySession: ZoomBuySessionScreen,
+    ZoomToday: ZoomTodayScreen,
     ZoomThanks: ZoomThanksScreen,
     TeacherZoomDetail: TeacherZoomDetailScreen,
     LearnerQA: LearnerQAScreen,

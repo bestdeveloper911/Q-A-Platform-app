@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F6323E',
-    paddingHorizontal: 40,
+    paddingHorizontal: 30,
     alignItems:'center'
   },
   backbuttonStyle:{

@@ -4,7 +4,8 @@ import {
   TextInput,
   View,
   Text,
-  ActivityIndicator
+  ActivityIndicator,
+  TouchableOpacity
 } from 'react-native';
 import {bindActionCreators} from 'redux';
 import CustomButton from '../../../components/CustomButton';
@@ -13,7 +14,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {onLogin} from '../../../redux/actions/Auth'
 import Toast from 'react-native-simple-toast';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const LoginInfo = (props) => {
   const [name, setName] = useState('');
@@ -34,7 +34,10 @@ const LoginInfo = (props) => {
     await props.onLogin({email, password});
   }
 
-  
+  const goToFlag = () => {
+    props.navigation.navigate('Privacy')
+  }
+
   useEffect(() => {
     if (props.auth.user != null && props.islogin){
       if (props.auth.user.userrole == 1){
@@ -106,24 +109,29 @@ const LoginInfo = (props) => {
         <ActivityIndicator size='large' color='#F6323E'/>
       </View>
       }
-      <View>
-        <TouchableOpacity onPress={() => props.navigation.navigate('Privacy')}>
-          <Text style={{textAlign: 'center', color: '#FFF', marginTop: 20}}>
-              By clicking on "Create an account" you agree to our
+        <View style={{marginTop: 20}}>
+          <Text style={styles.normalText}>
+              By clicking on "Create an account" you agree
           </Text>
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <Text style={{textAlign: 'center', color: '#FFF', textDecorationLine: 'underline', fontWeight: 'bold'}}>
-              Terms of Use
+            <Text style={styles.normalText}>
+              to our
             </Text>
-            <Text style={{textAlign: 'center', color: '#FFF', marginHorizontal: 8}}>
+            <TouchableOpacity onPress={() => goToFlag()}>
+              <Text style={styles.underlineText}>
+                Terms of Use
+              </Text>
+            </TouchableOpacity>
+            <Text style={styles.normalText}>
               and
             </Text>
-            <Text style={{textAlign: 'center', color: '#FFF', textDecorationLine: 'underline', fontWeight: 'bold'}}>
-              Privacy Policy.
-            </Text>
+            <TouchableOpacity onPress={() => goToFlag()}>
+              <Text style={styles.underlineText}>
+                Privacy Policy.
+              </Text>
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-      </View>
+        </View>
       </View>
     </KeyboardAwareScrollView>
   );
@@ -152,7 +160,7 @@ const styles = StyleSheet.create({
   },
   viewcontainer: {
     alignItems: 'center',
-    paddingHorizontal: 40
+    paddingHorizontal: 30
   },
   topTextStyle: {
     textAlign:'left', 
@@ -183,6 +191,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-
+  normalText: {
+    fontSize: 15, 
+    textAlign: 'center', 
+    color: '#FFF', 
+    marginHorizontal: 8
+  },
+  underlineText: {
+    fontSize: 15, 
+    textAlign: 'center', 
+    color: '#FFF', 
+    textDecorationLine: 'underline', 
+    fontWeight: 'bold'
+  }
 });
 

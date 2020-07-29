@@ -4,9 +4,10 @@ import {
   Image,
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import CustomButton from '../../../components/CustomButton';
+import {SCREEN} from '../../../common/Styles'
 
 const GetStart = (props) => { 
   const movePage = (item) => {
@@ -15,7 +16,8 @@ const GetStart = (props) => {
 
   return (
     <View style={styles.container}>
-      <View style={{marginTop: '55%'}}>
+      <Image source={require('../../../assets/images/people.png')} style={{width: SCREEN.WIDTH, height: SCREEN.HEIGHT/1.9}} resizeMode="stretch"/>
+      <View style={{marginTop: 20}}>
         <Text style={styles.textStyle}>
           The Q&A app for
         </Text>
@@ -47,7 +49,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F6323E',
-    justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 40
   },

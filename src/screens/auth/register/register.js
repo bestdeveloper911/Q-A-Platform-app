@@ -5,7 +5,8 @@ import {
   View,
   Text,
   ActivityIndicator,
-  ToastAndroid
+  ToastAndroid,
+  TouchableOpacity
 } from 'react-native';
 import CustomButton from '../../../components/CustomButton'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -29,6 +30,10 @@ const RegisterInfo = (props) => {
     props.onRegister({name, email, password});
   }
 
+  const goToFlag = () => {
+    props.navigation.navigate('Privacy')
+  }
+  
   useEffect(() => {
     if (props.register && props.user.userrole == 0){
       props.navigation.navigate('Login');  
@@ -98,6 +103,29 @@ const RegisterInfo = (props) => {
         <ActivityIndicator size='large' color='#F6323E'/>
       </View>
       }
+      <View style={{marginTop: 20}}>
+          <Text style={styles.normalText}>
+              By clicking on "Create an account" you agree
+          </Text>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <Text style={styles.normalText}>
+              to our
+            </Text>
+            <TouchableOpacity onPress={() => goToFlag()}>
+              <Text style={styles.underlineText}>
+                Terms of Use
+              </Text>
+            </TouchableOpacity>
+            <Text style={styles.normalText}>
+              and
+            </Text>
+            <TouchableOpacity onPress={() => goToFlag()}>
+              <Text style={styles.underlineText}>
+                Privacy Policy.
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
     </View>
   );
 }
@@ -121,7 +149,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F6323E',
     alignItems: 'center',
-    paddingHorizontal: 40
+    paddingHorizontal: 30
   },
   topTextStyle: {
     textAlign:'left', 
@@ -152,5 +180,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  normalText: {
+    fontSize: 15, 
+    textAlign: 'center', 
+    color: '#FFF', 
+    marginHorizontal: 8
+  },
+  underlineText: {
+    fontSize: 15, 
+    textAlign: 'center', 
+    color: '#FFF', 
+    textDecorationLine: 'underline', 
+    fontWeight: 'bold'
+  }
 });
 

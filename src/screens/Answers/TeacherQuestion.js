@@ -43,7 +43,7 @@ const TeacherQuestion = (props) => {
     return qAList.length> 0 && qAList.map((item, index) => {
         return (
           <TouchableOpacity activeOpacity={index != 0 && 1} onPress={() => index == 0 && props.navigation.navigate('TeacherQA', {questionitem: item})} key={index} style={styles.messageQuestion}>
-            <View style={{ flexDirection: 'row', maxWidth: '80%' }}>
+            <View style={{ flexDirection: 'row', maxWidth: '80%' }}  opacity={index == 0? 1: 0.5}>
               <View style={[styles.nameViewStyle, {backgroundColor: '#C1E9F5'}]}>
                 <Text style={styles.nameTextStyle}>
                   QE

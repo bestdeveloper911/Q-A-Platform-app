@@ -83,9 +83,12 @@ const Login = (props) => {
       </TouchableOpacity>
       <View style={{alignSelf:'center'}}>
         <Text style={styles.login}>
-          By logging in to Yolingo you agree to our
+          By logging in to Yolingo you agree 
         </Text>
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+          <Text style={[styles.login, {marginHorizontal: 7}]}>
+            to our
+          </Text>
           <TouchableOpacity onPress={goToFlag}>
             <Text style={styles.privacy}>
               privacy policy
@@ -109,7 +112,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F6323E',
-    paddingHorizontal: 40,
+    paddingHorizontal: 30,
     alignItems:'center'
   },
   backbuttonStyle:{
@@ -134,13 +137,13 @@ const styles = StyleSheet.create({
     padding:8
   },
   login: {
-    fontSize: 17,
+    fontSize: 15,
     color: '#FFF',
     textAlign:'center',
     // fontWeight:'bold'
   },
   privacy: {
-    fontSize: 17,
+    fontSize: 15,
     color: '#FFF',
     textAlign:'center',
     fontWeight:'bold',

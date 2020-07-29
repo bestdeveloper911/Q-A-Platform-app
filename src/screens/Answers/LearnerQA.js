@@ -19,6 +19,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {connect} from 'react-redux';
 import Toast from 'react-native-simple-toast';
 import {updateSession} from '../../service/QA';
+import Dialog, { DialogButton, DialogContent, DialogFooter } from 'react-native-popup-dialog';
+import {SCREEN} from '../../common/Styles';
 import { getLearnerQuestionList } from '../../service/QA';
 
 const LearnerQA = (props) => {
@@ -28,6 +30,7 @@ const LearnerQA = (props) => {
   const [questionLength, setQuestionLength ] = useState(0);
   const [questionuid,setQuestionuid ] = useState('');
   const [answeruid,setAnsweruid ] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
 
   const scrollViewRef = useRef();
   const onInputText = (text) => {
@@ -42,11 +45,6 @@ const LearnerQA = (props) => {
   };
    
   useEffect(() => {
-    // async function getList(){
-    //   const qalist = await getLearnerQuestionList(props.user.uid);
-    //   console.log('qalist======',qalist)
-    //   setQAList(qalist.sort(function(a,b){return a.timestamp - b.timestamp}));
-    // }
       database()
         .ref('/question')
         .orderByChild('uid')
@@ -59,6 +57,8 @@ const LearnerQA = (props) => {
             if (!item.val().isclose){
               qlist.push(item.val());
               questionUID.push(item.val().uid);
+            } else {
+              setShowPopup(true)
             }
           })
           database()
@@ -71,6 +71,8 @@ const LearnerQA = (props) => {
                 if (!subitem.val().isclose){
                   alist.push(subitem.val());
                   answerUID.push(subitem.val().uid);
+                } else{
+                  setShowPopup(true)
                 }
               })
               let qalist = [...qlist, ...alist];
@@ -123,6 +125,7 @@ const LearnerQA = (props) => {
 
   const closeSession = async() => {
     await updateSession(qAList, questionuid, answeruid, props.user.uid, props.user.uid, props.user.userrole);
+    setShowPopup(true);
     props.navigation.goBack();
   }
 
@@ -139,8 +142,6 @@ const LearnerQA = (props) => {
       .ref('/question')
       .push();
       
-      // console.log('I am ereerererer', questionLength)
-      // return
       if (questionLength == 0){
         global.parentkey = newReference.key;
       }
@@ -301,6 +302,22 @@ const LearnerQA = (props) => {
           </View>            
         </View>
       </View>
+      <Dialog
+        visible={showPopup}
+        onTouchOutside={() => {setShowPopup(false)}}
+        dialogStyle={styles.dialogInfoStyle}
+        >
+        <DialogContent style={{justifyContent: 'center'}}>
+          <View style={{flex:1, alignItems: 'center', marginTop: 10}}>
+            <Text style={styles.modalInfoTextStyle}>
+              The question session is now closed
+            </Text> 
+            <TouchableOpacity onPress={() => setShowPopup(false)} style={styles.modalButtonStyle}>
+              <Text style={styles.buttonTextStyle}>Yes</Text>
+            </TouchableOpacity>          
+          </View>
+        </DialogContent>
+      </Dialog> 
     </View>
   );
 }
@@ -446,6 +463,30 @@ const styles = StyleSheet.create({
       color: '#FFF',
       fontWeight: '700',
       fontSize: 16
-    }
+    },
+    dialogInfoStyle:{
+      width: SCREEN.WIDTH*0.9,
+      height: SCREEN.HEIGHT*0.2
+    },
+    modalInfoTextStyle: {
+      fontSize: 20, 
+      fontWeight: 'bold', 
+      textAlign: 'center',
+    },
+    modalButtonStyle: {
+      width: 100, 
+      height: 40, 
+      borderRadius: 10, 
+      backgroundColor: '#347EE9',
+      marginHorizontal: 10,
+      marginTop: 30,
+      justifyContent: 'center'
+    },
+    buttonTextStyle: {
+      textAlign: 'center',
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: '#FFF'
+    },
   });
 

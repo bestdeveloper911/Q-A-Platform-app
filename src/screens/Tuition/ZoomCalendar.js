@@ -13,12 +13,22 @@ import {connect} from 'react-redux';
 import CustomBlueButton from '../../components/CustomBlueButton';
 import HeaderLogo from '../../components/HeaderLogo';
 import LinearGradient from 'react-native-linear-gradient';
+import moment from 'moment'
 
 const ZoomCalendar = (props) => {
   const [date, setDate] = useState(null);
   const onPress = () => {
-    global.date = date;
-    props.navigation.navigate('ZoomClock');
+    var msDiff = new Date(date).getTime() - new Date().getTime();    //Future date - current date
+    var daysTillfromNow = Math.floor(msDiff / (1000 * 60 * 60 * 24));
+    if (daysTillfromNow < -1){
+      return 
+    } else if (daysTillfromNow == -1) {
+      global.date = date;
+      props.navigation.navigate('ZoomToday')
+    } else {
+      global.date = date;
+      props.navigation.navigate('ZoomClock');
+    }
   }
   LocaleConfig.locales['en'] = {
     monthNames: ['January','February','March','April','May','June','July','August','September','October','November','December'],
@@ -93,7 +103,6 @@ const ZoomCalendar = (props) => {
               hideExtraDays={true}
             />
         </LinearGradient>
-        {/* <Image source={require('../../assets/images/calendar.png')} style={{marginBottom: 30}}/> */}
         <CustomBlueButton title='Continue' onPress={onPress}/>
       </View>
     );

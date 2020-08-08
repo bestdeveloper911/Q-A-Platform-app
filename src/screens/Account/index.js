@@ -38,18 +38,6 @@ const Account = (props) => {
       content: 'Set your preferences',
     },
     {
-      title: 'LEGAL STUFF',
-      content: '',
-    },
-    {
-      title: 'Terms & Conditions',
-      content: 'Learn about your rights',
-    },
-    {
-      title: 'Privacy Policy',
-      content: 'How we use your information',
-    },
-    {
       title: 'SETTINGS',
       content: '',
     },

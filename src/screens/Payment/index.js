@@ -8,7 +8,8 @@ import {
   CheckBox,
   ScrollView,
   Modal,
-  FlatList
+  FlatList,
+  Alert
 } from 'react-native';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {onSubscribe} from '../../redux/actions/QA'
@@ -53,12 +54,14 @@ class Payment extends React.Component {
   }
   // const [isSelected, setSelection] = useState(false);
   onPress = () => {
+	//   this.getSubscriptions();
+	//   this.getPurchases();
     this.props.onSubscribe(true, this.props.user.uid)
     this.props.navigation.navigate('freeTrial');
   }
 
-  goToFlag = () => {
-    this.props.navigation.navigate('Privacy', {backpage: 'payment'})
+  goToFlag = (item) => {
+    this.props.navigation.navigate('TermsPrivacy', {item: item, backpage: 'payment'})
   }
 
 
@@ -146,6 +149,7 @@ class Payment extends React.Component {
 	afterSetStateChangePurchase = async () => {
 		try {
 			const products = await RNIap.getProducts(itemSkus);
+			console.log('products===========', products)
 			if (Platform.OS === "ios") {
 				this.onPressSubscription(itemSkus[0]);
 			} else {
@@ -170,8 +174,8 @@ class Payment extends React.Component {
 	};
 
 	afterSetStateChangeSubscription = async () => {
-	// const products = await RNIap.getSubscriptions(itemSubs);
-	const products = await RNIap.getProducts(itemSkus);
+	const products = await RNIap.getSubscriptions(itemSubs);
+	// const products = await RNIap.getProducts(itemSkus);
 	console.log('products===========', products)
 
 		if (Platform.OS === "ios") {
@@ -206,8 +210,8 @@ class Payment extends React.Component {
 				subscriptionIndicator: false,
 			});
 
-			const purchase = await RNIap.buySubscription(sku);
-
+			// const purchase = await RNIap.buySubscription(sku);
+			await RNIap.requestSubscription(sku);
 			if (Platform.OS === "ios") {
 				this.receiptValidateIOS(purchase.transactionReceipt);
 			} else {
@@ -228,7 +232,8 @@ class Payment extends React.Component {
 			this.setState({
 				purchaseIndicator: false
 			});
-			const purchase = await RNIap.buyProduct(sku);
+			// const purchase = await RNIap.buyProduct(sku);
+			await RNIap.requestPurchase(sku)
 			const transaction = JSON.parse(purchase.transactionReceipt);
 			if (Platform.OS === "android") {
 				this.onConsumeProduct(transaction);
@@ -428,7 +433,7 @@ class Payment extends React.Component {
                 />
 				<View style={{flexDirection: 'row'}}>
                 	<Text style={styles.label}>I agree to the</Text>
-					<TouchableOpacity onPress={this.goToFlag} style={{alignSelf: 'center'}}>
+					<TouchableOpacity onPress={this.goToFlag('terms')} style={{alignSelf: 'center'}}>
 						<Text style={[styles.label, {fontWeight: 'bold'}]}> subscription terms</Text>
 					</TouchableOpacity>
 				</View>

@@ -13,6 +13,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import database, { firebase } from '@react-native-firebase/database';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import ReadMore from 'react-native-read-more-text';
 import {connect} from 'react-redux';
 
 const TeacherQuestion = (props) => {
@@ -39,26 +40,47 @@ const TeacherQuestion = (props) => {
     fetchQAList()
   },[])
 
+
+  const _renderTruncatedFooter = (handlePress) => {
+    return (
+      <Text style={{color: 'blue', marginTop: 5}} onPress={handlePress}>
+        Read more
+      </Text>
+    );
+  }
+ 
+  const _renderRevealedFooter = (handlePress) => {
+    return (
+      <Text style={{color: 'blue', marginTop: 5}} onPress={handlePress}>
+        Show less
+      </Text>
+    );
+  }
+ 
+  const _handleTextReady = () => {
+    // ...
+  }
   const showMessage = () => {
     return qAList.length> 0 && qAList.map((item, index) => {
         return (
-          <TouchableOpacity activeOpacity={index != 0 && 1} onPress={() => index == 0 && props.navigation.navigate('TeacherQA', {questionitem: item})} key={index} style={styles.messageQuestion}>
-            <View style={{ flexDirection: 'row', maxWidth: '80%' }}  opacity={index == 0? 1: 0.5}>
-              <View style={[styles.nameViewStyle, {backgroundColor: '#C1E9F5'}]}>
-                <Text style={styles.nameTextStyle}>
-                  QE
-                </Text>
+          <TouchableOpacity activeOpacity={index != 0 && 1} onPress={() => index == 0 && props.navigation.navigate('TeacherQA', {questionitem: item})} key={index} style={styles.cardView}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap'}}  opacity={index == 0? 1: 0.5}>
+              <View style={[styles.nameViewStyle]}>
+                <Image source={require('../../assets/images/user.png')} style={{width: 40, height: 40}}/>
+                <Text>{item.username}</Text>
               </View>
-              <View>
+              <View style={{flex: 1}}>
                 <View style={styles.textMessageContentQuestion}>
+                <ReadMore
+                  numberOfLines={3}
+                  renderTruncatedFooter={_renderTruncatedFooter}
+                  renderRevealedFooter={_renderRevealedFooter}
+                  onReady={_handleTextReady}>
                   <Text style={styles.textMessageQuestion}>
-                      {item.content}
+                    {item.content}
                   </Text> 
-                </View>
-                <View style={{marginLeft:25, marginTop: 5}}>
-                  <Text style={{fontSize: 10, fontFamily: 'Roboto-Medium', color:'#B3BDD8'}}>
-                    {item.time}
-                  </Text>
+                </ReadMore>
+                  
                 </View>
               </View>
             </View>
@@ -171,12 +193,22 @@ const styles = StyleSheet.create({
       fontSize: 16,
       color: '#FFF'
     },
+    cardView: {
+      marginHorizontal: 10,
+      borderColor: 'gray',
+      backgroundColor: '#FAF4F9', 
+      borderWidth: 1,
+      borderRadius: 10,
+      marginVertical: 7,
+      paddingHorizontal: 5,
+      paddingVertical: 8
+    },
     nameViewStyle: {
-      width: 40, 
-      height: 40, 
+      width: 60, 
+      height: 60, 
       borderRadius: 10, 
-      justifyContent:'center', 
-      alignItems: 'center'
+      justifyContent:'center',
+      alignSelf: 'center', 
     },
     contentTextStyle: {
       fontFamily: 'Roboto', 
@@ -202,7 +234,7 @@ const styles = StyleSheet.create({
 
     textMessageQuestion: {
       fontFamily: 'Roboto',
-      fontSize: 14
+      fontSize: 14,
     },
     textMessageContentQuestion: {
       flexDirection: 'column', 
@@ -214,7 +246,7 @@ const styles = StyleSheet.create({
       borderTopRightRadius: 10,
       borderBottomLeftRadius: 10,
       borderBottomRightRadius: 10,
-      alignSelf: 'flex-start'
+      alignSelf: 'flex-start',
     },
     textMessageContentAnswer: {
       // flexDirection: 'column', 

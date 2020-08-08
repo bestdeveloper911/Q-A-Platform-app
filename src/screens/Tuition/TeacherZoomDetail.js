@@ -103,7 +103,7 @@ const TeacherZoomDetail = (props) => {
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.cardTextStyle}>Time Zone:</Text>
             <Text style={styles.cardTextStyle1}>{zoomItem.timezone}</Text>
-            <TouchableOpacity onPress={() => onshowInformation()} style={{marginLeft: 70, alignSelf: 'center'}}>
+            <TouchableOpacity onPress={() => onshowInformation()} style={{marginLeft: 15, alignSelf: 'center'}}>
               <Image source={require('../../assets/images/info.png')}/>
             </TouchableOpacity>
           </View>

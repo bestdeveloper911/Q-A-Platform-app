@@ -12,10 +12,12 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
+import {SCREEN} from '../../common/Styles';
 import {updateSession} from '../../service/QA';
 import ImagePicker from 'react-native-image-picker';
 import database, { firebase } from '@react-native-firebase/database';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Dialog, { DialogButton, DialogContent, DialogFooter } from 'react-native-popup-dialog';
 import {connect} from 'react-redux';
 
 const TeacherQA = (props) => {
@@ -25,6 +27,7 @@ const TeacherQA = (props) => {
   const [answerLength, setAnswerLength ] = useState(0);
   const [questionLength, setQuestionLength ] = useState(0);
   const [answeruid,setAnsweruid ] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
   const scrollViewRef = useRef();
   const onInputText = (text) => {
     setContent(text)
@@ -160,7 +163,7 @@ const TeacherQA = (props) => {
   const closeSession = async() => {
     const questionitem = props.navigation.getParam('questionitem')
     await updateSession(qAList, questionuid, answeruid, questionitem.uid, props.user.uid, props.user.userrole);
-    props.navigation.goBack();
+    setShowPopup(true);
   }
 
 
@@ -262,6 +265,22 @@ const TeacherQA = (props) => {
           </View>            
         </View>
       </View>
+      <Dialog
+        visible={showPopup}
+        onTouchOutside={() => {setShowPopup(false)}}
+        dialogStyle={styles.dialogInfoStyle}
+        >
+        <DialogContent style={{justifyContent: 'center'}}>
+          <View style={{flex:1, alignItems: 'center', marginTop: 10}}>
+            <Text style={styles.modalInfoTextStyle}>
+              The question session is now closed
+            </Text> 
+            <TouchableOpacity onPress={() => {setShowPopup(false); props.navigation.goBack();}} style={styles.modalButtonStyle}>
+              <Text style={styles.buttonTextStyle}>Yes</Text>
+            </TouchableOpacity>          
+          </View>
+        </DialogContent>
+      </Dialog> 
     </View>
   );
 }
@@ -387,6 +406,30 @@ const styles = StyleSheet.create({
       color: '#FFF',
       fontWeight: '700',
       fontSize: 16
-    }
+    },
+    dialogInfoStyle:{
+      width: SCREEN.WIDTH*0.9,
+      height: SCREEN.HEIGHT*0.2
+    },
+    modalInfoTextStyle: {
+      fontSize: 20, 
+      fontWeight: 'bold', 
+      textAlign: 'center',
+    },
+    modalButtonStyle: {
+      width: 100, 
+      height: 40, 
+      borderRadius: 10, 
+      backgroundColor: '#347EE9',
+      marginHorizontal: 10,
+      marginTop: 30,
+      justifyContent: 'center'
+    },
+    buttonTextStyle: {
+      textAlign: 'center',
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: '#FFF'
+    },
   });
 

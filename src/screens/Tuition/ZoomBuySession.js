@@ -354,7 +354,9 @@ class ZoomBuySession extends React.Component {
   closePage = () => {
     this.props.navigation.goBack();
   }
-  
+  goToFlag = (item) => {
+    this.props.navigation.navigate('TermsPrivacy', {item: item})
+  }
   render(){
     const {isSelected, name} = this.state;
     return (
@@ -419,7 +421,9 @@ class ZoomBuySession extends React.Component {
             />
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.label}>I agree to the </Text>
-            <Text style={[styles.label, {fontWeight: 'bold'}]}>terms</Text>
+			<TouchableOpacity onPress={this.goToFlag('terms')} style={{alignSelf: 'center'}}>
+				<Text style={[styles.label, {fontWeight: 'bold'}]}>terms</Text>
+			</TouchableOpacity>
           </View>
           </View>
           <CustomBlueButton title='Buy a Session' onPress={this.onPress}/>

@@ -22,6 +22,7 @@ import {updateSession} from '../../service/QA';
 import Dialog, { DialogButton, DialogContent, DialogFooter } from 'react-native-popup-dialog';
 import {SCREEN} from '../../common/Styles';
 import { getLearnerQuestionList } from '../../service/QA';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const LearnerQA = (props) => {
   const [content, setContent] = useState('');
@@ -57,8 +58,6 @@ const LearnerQA = (props) => {
             if (!item.val().isclose){
               qlist.push(item.val());
               questionUID.push(item.val().uid);
-            } else {
-              setShowPopup(true)
             }
           })
           database()
@@ -71,8 +70,6 @@ const LearnerQA = (props) => {
                 if (!subitem.val().isclose){
                   alist.push(subitem.val());
                   answerUID.push(subitem.val().uid);
-                } else{
-                  setShowPopup(true)
                 }
               })
               let qalist = [...qlist, ...alist];
@@ -130,6 +127,8 @@ const LearnerQA = (props) => {
   }
 
   const sendMessage = async() => {
+    let username = await AsyncStorage.getItem('username');
+    console.log('username------------',username)
     if (content == ''){
       return
     }
@@ -155,6 +154,7 @@ const LearnerQA = (props) => {
           key: newReference.key,
           parentkey: global.parentkey,
           type: 'question',
+          username: username,
           ishistory: true,
           newquestion: qAList.length == 0?true:false,
           timestamp: firebase.database.ServerValue.TIMESTAMP

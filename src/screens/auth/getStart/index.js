@@ -17,12 +17,12 @@ const GetStart = (props) => {
   return (
     <View style={styles.container}>
       <Image source={require('../../../assets/images/people.png')} style={{width: SCREEN.WIDTH, height: SCREEN.HEIGHT/1.9}} resizeMode="stretch"/>
-      <View style={{marginTop: 20}}>
+      <View style={{marginTop: 35}}>
         <Text style={styles.textStyle}>
-          The Q&A app for
+          The Q&A and tuition app
         </Text>
         <Text style={styles.textStyle}>
-        learning English.
+          for learning English.
         </Text>
       </View>
       <CustomButton 
@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
   textStyle: {
     fontSize: 24, 
     color: '#FFF', 
+    textAlign: 'center',
     fontWeight:'700', 
     fontFamily: 'Arial',
     letterSpacing: 1

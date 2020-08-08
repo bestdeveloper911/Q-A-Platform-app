@@ -13,7 +13,9 @@ import ThanksScreen from '../screens/auth/register/teacherRegister/thanks';
 import EmailScreen from '../screens/auth/register/teacherRegister/addEmail';
 import CountryScreen from '../screens/auth/register/teacherRegister/country';
 import RegisterScreen from '../screens/auth/register';
-import PrivacyScreen from '../screens/privacy';
+import TermsPrivacyScreen from '../screens/terms_privacy';
+import TermsScreen from '../screens/terms_privacy/terms';
+import PrivacyScreen from '../screens/terms_privacy/privacy';
 import RegisterInfoScreen from '../screens/auth/register/register';
 import PaymentScreen from '../screens/Payment';
 import freeTrialScreen from '../screens/Payment/freeTrial';
@@ -149,7 +151,9 @@ const AppNav = ({ user }) => {
     Register: RegisterScreen,
     RegisterInfo: RegisterInfoScreen,
     TeacherCreate: TeacherCreateScreen,
-    Privacy: PrivacyScreen
+    Privacy: PrivacyScreen,
+    TermsPrivacy: TermsPrivacyScreen,
+    Terms: TermsScreen,
   }, {
     headerMode: 'none',
     initialRouteName: 'GetStart'

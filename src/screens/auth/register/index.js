@@ -15,8 +15,8 @@ const Register = (props) => {
     props.navigation.navigate(item)
   }
 
-  const goToFlag = () => {
-    props.navigation.navigate('Privacy')
+  const goToFlag = (item) => {
+    props.navigation.navigate('TermsPrivacy', {item: item})
   }
 
   return (
@@ -84,7 +84,7 @@ const Register = (props) => {
           By logging in to Yolingo you agree to our
         </Text>
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <TouchableOpacity onPress={goToFlag}>
+          <TouchableOpacity onPress={() => goToFlag('privacy')}>
             <Text style={styles.privacy}>
               privacy policy
             </Text>
@@ -92,7 +92,7 @@ const Register = (props) => {
           <Text style={[styles.login, {marginHorizontal: 7}]}>
             and
           </Text>
-          <TouchableOpacity onPress={goToFlag}>
+          <TouchableOpacity onPress={() => goToFlag('terms')}>
             <Text style={styles.privacy}>
               terms of service.
             </Text>

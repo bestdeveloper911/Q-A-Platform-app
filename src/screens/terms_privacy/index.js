@@ -24,7 +24,7 @@ const imageData = [
   {url: require('../../assets/images/Cambodia-F.png')}
 ]
 
-const Privacy = (props) => {
+const TermsPrivacy = (props) => {
   const [isSelected, setSelection] = useState(false);  
   const closePage = () => {
     const back = props.navigation.getParam('backpage');
@@ -34,6 +34,16 @@ const Privacy = (props) => {
       props.navigation.goBack()
     }
   }
+
+  const goTermPrivacy = (index) => {
+    const item = props.navigation.getParam('item');
+    if (item == 'terms'){
+      props.navigation.navigate('Terms', {index: index})
+    } else {
+      props.navigation.navigate('Privacy', {index: index})
+    }
+  }
+
   return (
     <View style={styles.container}>      
       <TouchableOpacity onPress={() => closePage()} style={{position:'absolute', right: 15, top:15}}>
@@ -46,9 +56,9 @@ const Privacy = (props) => {
         data={imageData}
         extraData={imageData}
         numColumns={3}
-        renderItem={({item}) => {
+        renderItem={({item, index}) => {
           return(
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => goTermPrivacy(index)}>
               <Image source={item.url} style={styles.flag}/>
             </TouchableOpacity>
           )
@@ -65,7 +75,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Privacy);
+export default connect(mapStateToProps)(TermsPrivacy);
 
 const styles = StyleSheet.create({
   container: {

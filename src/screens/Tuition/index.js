@@ -65,7 +65,7 @@ const Tuition = (props) => {
           <View style={{position:'absolute', top: '10%', alignItems:'center', right:0, left:0}}>
             <View style={{position:'relative'}}>
               <Image source={require('../../assets/images/zoom-body.png')}/>
-              <Image source={require('../../assets/images/zoom_man.jpg')} style={{position: 'absolute', left: 10, top: 30, width: 60, height: 90}}/>
+              <Image source={require('../../assets/images/zoom_man.jpg')} style={{position: 'absolute', left: 5, bottom: 13, width: 70, height: 110}}/>
             </View>
             <Text style={styles.answerTextStyle}>Get Help from our teachers with 15 minute live video tuition sessions using Zoom.</Text>
           </View>

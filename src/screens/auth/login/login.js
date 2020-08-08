@@ -8,11 +8,13 @@ import {
   TouchableOpacity
 } from 'react-native';
 import {bindActionCreators} from 'redux';
+import AsyncStorage from '@react-native-community/async-storage';
 import CustomButton from '../../../components/CustomButton';
 import {connect} from 'react-redux';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {onLogin} from '../../../redux/actions/Auth'
 import Toast from 'react-native-simple-toast';
+import database, { firebase } from '@react-native-firebase/database';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const LoginInfo = (props) => {
@@ -34,12 +36,23 @@ const LoginInfo = (props) => {
     await props.onLogin({email, password});
   }
 
-  const goToFlag = () => {
-    props.navigation.navigate('Privacy')
+  const goToFlag = (item) => {
+    props.navigation.navigate('TermsPrivacy', {item: item})
   }
 
   useEffect(() => {
+    
     if (props.auth.user != null && props.islogin){
+      database()
+        .ref('/users')
+        .orderByChild('email')
+        .equalTo(props.auth.user.email)
+        .once('value')
+        .then(snapshot => {
+          snapshot.forEach(element => {
+            AsyncStorage.setItem('username', element.val().name)  
+          });
+        })
       if (props.auth.user.userrole == 1){
         if (props.auth.activity){
           props.navigation.navigate('Notification');
@@ -117,7 +130,7 @@ const LoginInfo = (props) => {
             <Text style={styles.normalText}>
               to our
             </Text>
-            <TouchableOpacity onPress={() => goToFlag()}>
+            <TouchableOpacity onPress={() => goToFlag('terms')}>
               <Text style={styles.underlineText}>
                 Terms of Use
               </Text>
@@ -125,7 +138,7 @@ const LoginInfo = (props) => {
             <Text style={styles.normalText}>
               and
             </Text>
-            <TouchableOpacity onPress={() => goToFlag()}>
+            <TouchableOpacity onPress={() => goToFlag('privacy')}>
               <Text style={styles.underlineText}>
                 Privacy Policy.
               </Text>
@@ -198,7 +211,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 8
   },
   underlineText: {
-    fontSize: 15, 
+    fontSize: 16, 
     textAlign: 'center', 
     color: '#FFF', 
     textDecorationLine: 'underline', 

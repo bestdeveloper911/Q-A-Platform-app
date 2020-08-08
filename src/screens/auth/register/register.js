@@ -30,8 +30,8 @@ const RegisterInfo = (props) => {
     props.onRegister({name, email, password});
   }
 
-  const goToFlag = () => {
-    props.navigation.navigate('Privacy')
+  const goToFlag = (item) => {
+    props.navigation.navigate('TermsPrivacy', {item: item})
   }
   
   useEffect(() => {
@@ -111,7 +111,7 @@ const RegisterInfo = (props) => {
             <Text style={styles.normalText}>
               to our
             </Text>
-            <TouchableOpacity onPress={() => goToFlag()}>
+            <TouchableOpacity onPress={() => goToFlag('terms')}>
               <Text style={styles.underlineText}>
                 Terms of Use
               </Text>
@@ -119,7 +119,7 @@ const RegisterInfo = (props) => {
             <Text style={styles.normalText}>
               and
             </Text>
-            <TouchableOpacity onPress={() => goToFlag()}>
+            <TouchableOpacity onPress={() => goToFlag('privacy')}>
               <Text style={styles.underlineText}>
                 Privacy Policy.
               </Text>
